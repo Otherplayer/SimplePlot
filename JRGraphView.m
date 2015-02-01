@@ -10,6 +10,7 @@
 
 static int lengthOfY = 200;
 static int lengthOfX = 10;
+static int positionOfLeft = 3;
 
 static int standardLengthOfY = 200;
 
@@ -196,18 +197,6 @@ static int standardLengthOfY = 200;
 #pragma mark -
 #pragma mark - Refresh
 ////////////////////////////////////////////////////////////////////////////////
--(void)setUpwarningValue:(CGFloat)upwarningValue{
-    
-    
-    NSNumber *startXAxisOffset = @(-2.f);
-    NSNumber *endXAxisXoffset = @(100);
-    [self.plotDatasDictionary setObject:@[@{ X_AXIS:startXAxisOffset, Y_AXIS:@(upwarningValue) },@{X_AXIS:endXAxisXoffset, Y_AXIS:@(upwarningValue)}] forKeyedSubscript:kWarningUpLine];
-}
--(void)setLowerwarningValue:(CGFloat)lowerwarningValue{
-    NSNumber *startXAxisOffset = @(-2.f);
-    NSNumber *endXAxisXoffset = @(100);
-    [self.plotDatasDictionary setObject:@[@{ X_AXIS:startXAxisOffset, Y_AXIS:@(lowerwarningValue) },@{X_AXIS:endXAxisXoffset, Y_AXIS:@(lowerwarningValue)}] forKeyedSubscript:kWarningLowerLine];
-}
 - (void)refresh {
     
     NSArray *dataArr = [self.plotDatasDictionary objectForKey:kDataLine];
@@ -234,14 +223,47 @@ static int standardLengthOfY = 200;
                                                                      length:CPTDecimalFromFloat(lengthOfY)];
         
     }
-    if (dataArr.count > (lengthOfX - 3)) {
-        NSUInteger location = dataArr.count - 7;
+    if (dataArr.count + positionOfLeft > lengthOfX) {
+        NSUInteger location = dataArr.count - (lengthOfX - positionOfLeft);
         plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(location) length:CPTDecimalFromFloat(lengthOfX)];
     }
     
+    // refresh warning line
+    [self setUpwarningValue:_upwarningValue];
+    [self setLowerwarningValue:_lowerwarningValue];
     
-    [dataLinePlot reloadData];
+    //    [dataLinePlot reloadData];
+    [self.hostView.hostedGraph reloadData];
+    
+    
+}
 
+
+-(void)setUpwarningValue:(CGFloat)upwarningValue{
+    _upwarningValue = upwarningValue;
+    
+    NSNumber *startXAxisOffset = @(-2.f);
+    NSNumber *endXAxisXoffset = @(lengthOfX * 3);
+    
+    NSArray *dataArr = [self.plotDatasDictionary objectForKey:kDataLine];
+    if (dataArr.count > lengthOfX) {
+        endXAxisXoffset = @(dataArr.count + lengthOfX * 2);
+    }
+    
+    [self.plotDatasDictionary setObject:@[@{ X_AXIS:startXAxisOffset, Y_AXIS:@(upwarningValue) },@{X_AXIS:endXAxisXoffset, Y_AXIS:@(upwarningValue)}] forKeyedSubscript:kWarningUpLine];
+}
+-(void)setLowerwarningValue:(CGFloat)lowerwarningValue{
+    _lowerwarningValue = lowerwarningValue;
+    
+    NSNumber *startXAxisOffset = @(-2.f);
+    NSNumber *endXAxisXoffset = @(lengthOfX * 3);
+    
+    NSArray *dataArr = [self.plotDatasDictionary objectForKey:kDataLine];
+    if (dataArr.count > lengthOfX) {
+        endXAxisXoffset = @(dataArr.count + lengthOfX * 2);
+    }
+    
+    [self.plotDatasDictionary setObject:@[@{ X_AXIS:startXAxisOffset, Y_AXIS:@(lowerwarningValue) },@{X_AXIS:endXAxisXoffset, Y_AXIS:@(lowerwarningValue)}] forKeyedSubscript:kWarningLowerLine];
 }
 
 
