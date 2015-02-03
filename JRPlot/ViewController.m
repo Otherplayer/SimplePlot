@@ -63,7 +63,6 @@ static int i = 1;
     
 }
 
-
 - (void)addAction{
     
     NSNumber *x = @(i);
@@ -73,6 +72,11 @@ static int i = 1;
 
     [self.graphView.plotDatasDictionary setObject:self.dataArr forKey:kDataLine];
     [self.graphView refresh];
+//    
+//    if (i > 10) {
+//        NSDictionary *dic = @"";
+//        [dic objectForKey:@"x"];
+//    }
 }
 
 

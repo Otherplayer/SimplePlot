@@ -15,6 +15,7 @@
 		631B90281A79EDF0001A9A98 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631B90261A79EDF0001A9A98 /* LaunchScreen.xib */; };
 		631B90341A79EDF0001A9A98 /* JRPlotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B90331A79EDF0001A9A98 /* JRPlotTests.m */; };
 		631B90441A79FE90001A9A98 /* JRGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 631B90431A79FE90001A9A98 /* JRGraphView.m */; };
+		634A80DD1A81195000229D62 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 634A80DC1A81195000229D62 /* UncaughtExceptionHandler.m */; };
 		EDA4D61CAD1DD4969CC424B3 /* libPods-JRPlot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBCC4F0635C53AAEA5B9433 /* libPods-JRPlot.a */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,8 @@
 		631B90331A79EDF0001A9A98 /* JRPlotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRPlotTests.m; sourceTree = "<group>"; };
 		631B90421A79FE90001A9A98 /* JRGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRGraphView.h; sourceTree = "<group>"; };
 		631B90431A79FE90001A9A98 /* JRGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRGraphView.m; sourceTree = "<group>"; };
+		634A80DB1A81195000229D62 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UncaughtExceptionHandler.h; sourceTree = "<group>"; };
+		634A80DC1A81195000229D62 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UncaughtExceptionHandler.m; sourceTree = "<group>"; };
 		89069D5252F79F50868A092B /* Pods-JRPlot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JRPlot.release.xcconfig"; path = "Pods/Target Support Files/Pods-JRPlot/Pods-JRPlot.release.xcconfig"; sourceTree = "<group>"; };
 		CDBCC4F0635C53AAEA5B9433 /* libPods-JRPlot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JRPlot.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -80,6 +83,8 @@
 		631B900B1A79EDF0001A9A98 = {
 			isa = PBXGroup;
 			children = (
+				634A80DB1A81195000229D62 /* UncaughtExceptionHandler.h */,
+				634A80DC1A81195000229D62 /* UncaughtExceptionHandler.m */,
 				631B90421A79FE90001A9A98 /* JRGraphView.h */,
 				631B90431A79FE90001A9A98 /* JRGraphView.m */,
 				631B90161A79EDF0001A9A98 /* JRPlot */,
@@ -284,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				631B90201A79EDF0001A9A98 /* ViewController.m in Sources */,
+				634A80DD1A81195000229D62 /* UncaughtExceptionHandler.m in Sources */,
 				631B90441A79FE90001A9A98 /* JRGraphView.m in Sources */,
 				631B901D1A79EDF0001A9A98 /* AppDelegate.m in Sources */,
 				631B901A1A79EDF0001A9A98 /* main.m in Sources */,
