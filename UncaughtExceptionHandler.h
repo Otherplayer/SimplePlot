@@ -13,7 +13,11 @@
     BOOL dismissed;
 }
 void UncaughtExceptionHandlers (NSException *exception);
++ (void) InstallUncaughtExceptionHandler;
+
+
+
+
 + (NSArray *)backtrace;
 - (void)handleException:(NSException *)exception;
-+ (void) InstallUncaughtExceptionHandler;
 @end
