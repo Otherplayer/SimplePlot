@@ -34,7 +34,7 @@ static int i = 1;
     
     self.graphView = [[JRGraphView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 200)];
     [self.view addSubview:self.graphView];
-    [self.view setBackgroundColor:[UIColor lightGrayColor]];
+    [self.view setBackgroundColor:[UIColor colorWithRed:1.000 green:0.000 blue:0.000 alpha:0.590]];
     
 
     NSMutableArray *contentArray2 = [NSMutableArray array];

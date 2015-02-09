@@ -13,6 +13,7 @@ static NSString *const X_AXIS = @"x";
 static NSString *const Y_AXIS = @"y";
 
 static NSString *const kDataLine    = @"Data Line";
+static NSString *const kDataLineLast = @"Data Line Last";
 static NSString *const kDashDataLine = @"Dash Data Line";
 static NSString *const kWarningUpLine = @"Warning Up Line";
 static NSString *const kWarningLowerLine = @"Warning Lower Line";

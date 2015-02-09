@@ -90,6 +90,8 @@ static int standardLengthOfY = 200;
     dataLinePlot.plotSymbolMarginForHitDetection = 10.0f;
     [graph addPlot:dataLinePlot];
     
+    
+    
     CPTScatterPlot *dashDataLinePlot = [[CPTScatterPlot alloc] init];
     dashDataLinePlot.identifier = kDashDataLine;
     dashDataLinePlot.dataSource = self;
@@ -188,6 +190,45 @@ static int standardLengthOfY = 200;
 //    [yRange expandRangeByFactor:CPTDecimalFromDouble(3.0)];
 ////    plotSpace.globalXRange = xRange;
 //    plotSpace.globalYRange = yRange;
+    // 第 1 个柱状图：
+    CPTBarPlot *barPlot = [ CPTBarPlot tubularBarPlotWithColor :[ CPTColor orangeColor ] horizontalBars : NO ];
+    barPlot.baseValue = CPTDecimalFromFloat(1);
+    barPlot.barWidth = CPTDecimalFromFloat(0.3);
+    CPTGradient *fillGradient = [CPTGradient gradientWithBeginningColor:[CPTColor orangeColor] endingColor:[CPTColor colorWithComponentRed:1 green:0.5 blue:0 alpha:0.6]];
+    fillGradient.angle = CPTFloat(1 ? -90.0 : 0.0);
+    barPlot.fill       = [CPTFill fillWithGradient:fillGradient];
+    lineStyle.lineColor = [CPTColor clearColor];
+    barPlot.lineStyle = lineStyle;
+    // 数据源，必须实现 CPPlotDataSource 协议
+    barPlot.dataSource = self ;
+    // 图形向左偏移： 0.25
+    barPlot.barOffset = CPTDecimalFromFloat(0.5) ;
+    //id ，根据此 id 来区分不同的 plot ，或者为不同 plot 提供不同数据源
+    barPlot. identifier = kDataLine ;
+    // 添加图形到绘图空间
+    [ graph addPlot :barPlot toPlotSpace :plotSpace];
+    
+    
+    CPTBarPlot *barPlotLast = [ CPTBarPlot tubularBarPlotWithColor :[ CPTColor orangeColor ] horizontalBars : NO ];
+    barPlotLast.baseValue = CPTDecimalFromFloat(1);
+    barPlotLast.barWidth = CPTDecimalFromFloat(0.3);
+    CPTGradient *fillGradientLast = [CPTGradient gradientWithBeginningColor:[CPTColor redColor] endingColor:[CPTColor colorWithComponentRed:1 green:0 blue:0 alpha:0.4]];
+    fillGradientLast.angle = CPTFloat(1 ? -90.0 : 0.0);
+    barPlotLast.fill       = [CPTFill fillWithGradient:fillGradientLast];
+    lineStyle.lineColor = [CPTColor clearColor];
+    barPlotLast.lineStyle = lineStyle;
+    // 数据源，必须实现 CPPlotDataSource 协议
+    barPlotLast.dataSource = self ;
+    // 图形向左偏移： 0.25
+    barPlotLast.barOffset = CPTDecimalFromFloat(0.5) ;
+    //id ，根据此 id 来区分不同的 plot ，或者为不同 plot 提供不同数据源
+    barPlotLast. identifier = kDataLineLast ;
+    // 添加图形到绘图空间
+    [ graph addPlot :barPlotLast toPlotSpace :plotSpace];
+
+    
+    
+    
     
 }
 
@@ -209,6 +250,14 @@ static int standardLengthOfY = 200;
             shouldRefresh = YES;
         }
     }
+    NSArray *dataLastArr;
+    if (dataArr.count > 0) {
+        dataLastArr = [dataArr lastObject];
+        [self.plotDatasDictionary removeObjectForKey:kDataLineLast];
+        [self.plotDatasDictionary setObject:@[dataLastArr] forKey:kDataLineLast];
+    }
+    
+    
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *) self.hostView.hostedGraph.defaultPlotSpace;
     CPTXYAxisSet *axisSet         = (CPTXYAxisSet *)self.hostView.hostedGraph.axisSet;
     
