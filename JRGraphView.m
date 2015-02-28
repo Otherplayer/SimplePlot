@@ -92,7 +92,6 @@ static int standardLengthOfY = 200;
     
     
     
-    
     CPTScatterPlot *dashDataLinePlot = [[CPTScatterPlot alloc] init];
     dashDataLinePlot.identifier = kDashDataLine;
     dashDataLinePlot.dataSource = self;
@@ -103,14 +102,25 @@ static int standardLengthOfY = 200;
     dashDataLinePlot.interpolation = CPTScatterPlotInterpolationCurved;
     [graph addPlot:dashDataLinePlot];
     
-    CPTColor * blueColor        = [CPTColor colorWithComponentRed:0.3 green:0.3 blue:1.0 alpha:0.8];
+    CPTColor * blueColor        = [CPTColor colorWithComponentRed:0.3 green:0.3 blue:1.0 alpha:0.8];// 渐变色
     CPTColor * redColor         = [CPTColor colorWithComponentRed:1.0 green:0.3 blue:0.3 alpha:0.8];
     CPTGradient * areaGradient1 = [CPTGradient gradientWithBeginningColor:blueColor
                                                               endingColor:redColor];
     areaGradient1.angle = -90.0f;
     CPTFill * areaGradientFill  = [CPTFill fillWithGradient:areaGradient1];
     dashDataLinePlot.areaFill      = areaGradientFill;
-    dashDataLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:1] decimalValue]; // 渐变色
+    dashDataLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:1] decimalValue];
+    
+    dashDataLinePlot.opacity = 0.0f;//淡入动画
+    CABasicAnimation *fadeInAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    fadeInAnimation.duration            = 3.0f;
+    fadeInAnimation.removedOnCompletion = NO;
+    fadeInAnimation.fillMode            = kCAFillModeForwards;
+    fadeInAnimation.toValue             = [NSNumber numberWithFloat:1.0];
+    [dashDataLinePlot addAnimation:fadeInAnimation forKey:@"animateOpacity"];
+    
+    
+    
     
     
     // Warning lines
