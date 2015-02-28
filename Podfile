@@ -4,6 +4,7 @@
 target "JRPlot" do
 
 pod 'CorePlot', '~> 1.5.1'
+pod 'PLCrashReporter', '~> 1.2-rc5'
 
 end
 

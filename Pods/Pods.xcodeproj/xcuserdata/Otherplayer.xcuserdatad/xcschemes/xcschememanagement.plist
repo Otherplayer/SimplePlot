@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-JRPlot-PLCrashReporter.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-JRPlot.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>01CD162851096BC7A80B1EDE</key>
+		<key>2923507E6E3606512D87FCED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>57442EB00F2B1ECA1360F55D</key>
+		<key>B5CAAD0C9DED6AE917BAC628</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BCF0E6A2179B1CCDDD663962</key>
 		<dict>
 			<key>primary</key>
 			<true/>

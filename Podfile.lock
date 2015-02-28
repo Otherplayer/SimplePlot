@@ -1,10 +1,13 @@
 PODS:
   - CorePlot (1.5.1)
+  - PLCrashReporter (1.2-rc5)
 
 DEPENDENCIES:
   - CorePlot (~> 1.5.1)
+  - PLCrashReporter (~> 1.2-rc5)
 
 SPEC CHECKSUMS:
   CorePlot: b15cb1a9a687b9576545104248d6e22033e678bb
+  PLCrashReporter: 979cd3c5bda33655f4df58fa6219d067183d7a7e
 
 COCOAPODS: 0.34.4

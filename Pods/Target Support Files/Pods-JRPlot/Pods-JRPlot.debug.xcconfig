@@ -1,6 +1,7 @@
+FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/PLCrashReporter/iOS Framework"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CorePlot"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/CorePlot"
-OTHER_LDFLAGS = -ObjC -l"Pods-JRPlot-CorePlot" -framework "QuartzCore"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/CorePlot" "${PODS_ROOT}/Headers/Public/PLCrashReporter"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers/Public" -isystem "${PODS_ROOT}/Headers/Public/CorePlot" -isystem "${PODS_ROOT}/Headers/Public/PLCrashReporter"
+OTHER_LDFLAGS = -ObjC -l"Pods-JRPlot-CorePlot" -l"Pods-JRPlot-PLCrashReporter" -framework "CrashReporter" -framework "QuartzCore"
 OTHER_LIBTOOLFLAGS = $(OTHER_LDFLAGS)
 PODS_ROOT = ${SRCROOT}/Pods

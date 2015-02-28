@@ -14,7 +14,7 @@ static int positionOfLeft = 3;
 
 static int standardLengthOfY = 200;
 
-@interface JRGraphView ()<CPTPlotDataSource,CPTPlotSpaceDelegate,CPTPlotAreaDelegate,CPTScatterPlotDelegate>
+@interface JRGraphView ()<CPTPlotDataSource,CPTPlotSpaceDelegate,CPTPlotAreaDelegate,CPTScatterPlotDelegate,CPTAxisDelegate>
 {
     CPTPlotSpaceAnnotation *symbolTextAnnotation;
     CPTScatterPlot *dataLinePlot;
@@ -92,6 +92,7 @@ static int standardLengthOfY = 200;
     
     
     
+    
     CPTScatterPlot *dashDataLinePlot = [[CPTScatterPlot alloc] init];
     dashDataLinePlot.identifier = kDashDataLine;
     dashDataLinePlot.dataSource = self;
@@ -101,6 +102,16 @@ static int standardLengthOfY = 200;
     dashDataLinePlot.cachePrecision = CPTPlotCachePrecisionDouble;
     dashDataLinePlot.interpolation = CPTScatterPlotInterpolationCurved;
     [graph addPlot:dashDataLinePlot];
+    
+    CPTColor * blueColor        = [CPTColor colorWithComponentRed:0.3 green:0.3 blue:1.0 alpha:0.8];
+    CPTColor * redColor         = [CPTColor colorWithComponentRed:1.0 green:0.3 blue:0.3 alpha:0.8];
+    CPTGradient * areaGradient1 = [CPTGradient gradientWithBeginningColor:blueColor
+                                                              endingColor:redColor];
+    areaGradient1.angle = -90.0f;
+    CPTFill * areaGradientFill  = [CPTFill fillWithGradient:areaGradient1];
+    dashDataLinePlot.areaFill      = areaGradientFill;
+    dashDataLinePlot.areaBaseValue = [[NSDecimalNumber numberWithFloat:1] decimalValue]; // 渐变色
+    
     
     // Warning lines
     CPTScatterPlot *warningUpLinePlot = [[CPTScatterPlot alloc] init];
@@ -149,6 +160,7 @@ static int standardLengthOfY = 200;
     x.orthogonalCoordinateDecimal = CPTDecimalFromFloat(0);
     x.axisConstraints             = [CPTConstraints constraintWithRelativeOffset:0.0];
     x.labelFormatter              = formatter;
+    //x.delegate                    = self;
     
     // Label y with an automatic label policy.
     CPTXYAxis *y                  = axisSet.yAxis;
@@ -162,7 +174,7 @@ static int standardLengthOfY = 200;
     y.labelFormatter              = formatter;
     y.labelOffset                 = -2;
     y.visibleAxisRange            = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromFloat(0) length:CPTDecimalFromFloat(lengthOfY)];
-    
+    y.delegate                    = self;
     // Set axes
     graph.axisSet.axes = @[x, y];
     
@@ -462,4 +474,84 @@ static int standardLengthOfY = 200;
         symbolTextAnnotation = nil;
     }
 }
+
+
+#////////////////////////////////////////////////////////////////////////////////
+#pragma mark - CPTAxisDelegate
+////////////////////////////////////////////////////////////////////////////////
+/** @brief @optional This method gives the delegate a chance to create custom labels for each tick.
+ *  It can be used with any labeling policy. Returning @NO will cause the axis not
+ *  to update the labels. It is then the delegate&rsquo;s responsibility to do this.
+ *  @param axis The axis.
+ *  @param locations The locations of the major ticks.
+ *  @return @YES if the axis class should proceed with automatic labeling.
+ **/
+-(BOOL)axis:(CPTAxis *)axis shouldUpdateAxisLabelsAtLocations:(NSSet *)locations{
+    
+    static CPTTextStyle * zeroStyle= nil;
+    static CPTTextStyle * firStyle = nil;
+    static CPTTextStyle * secStyle = nil;
+    static CPTTextStyle * thiStyle = nil;
+    static CPTTextStyle * forStyle = nil;
+    static CPTTextStyle * fifStyle = nil;
+    static CPTTextStyle * sexStyle = nil;
+    
+    NSFormatter * formatter   = axis.labelFormatter;
+    CGFloat labelOffset             = axis.labelOffset;
+    
+    NSDecimalNumber *firNumber = [NSDecimalNumber decimalNumberWithString:@"50"];
+    NSDecimalNumber *secNumber = [NSDecimalNumber decimalNumberWithString:@"100"];
+    NSDecimalNumber *thiNumber = [NSDecimalNumber decimalNumberWithString:@"150"];
+    NSDecimalNumber *forNumber = [NSDecimalNumber decimalNumberWithString:@"200"];
+    NSDecimalNumber *fifNumber = [NSDecimalNumber decimalNumberWithString:@"250"];
+    NSDecimalNumber *sexNumber = [NSDecimalNumber decimalNumberWithString:@"300"];
+    
+    NSMutableSet * newLabels        = [NSMutableSet set];
+    
+    for (NSDecimalNumber * tickLocation in locations) {
+        CPTTextStyle *theLabelTextStyle;
+        if ([tickLocation isGreaterThanOrEqualTo:sexNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:sexStyle color:[CPTColor yellowColor]];
+        }else if ([tickLocation isGreaterThanOrEqualTo:fifNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:fifStyle color:[CPTColor purpleColor]];
+        }else if ([tickLocation isGreaterThanOrEqualTo:forNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:forStyle color:[CPTColor greenColor]];
+        }else if ([tickLocation isGreaterThanOrEqualTo:thiNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:thiStyle color:[CPTColor redColor]];
+        }else if ([tickLocation isGreaterThanOrEqualTo:secNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:secStyle color:[CPTColor blueColor]];
+        }else if ([tickLocation isGreaterThanOrEqualTo:firNumber]) {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:firStyle color:[CPTColor cyanColor]];
+        }else {
+            theLabelTextStyle = [self textStyleWithAxis:axis style:zeroStyle color:[CPTColor blackColor]];
+        }
+        
+        NSString * labelString      = [formatter stringForObjectValue:tickLocation];
+        CPTTextLayer * newLabelLayer= [[CPTTextLayer alloc] initWithText:labelString style:theLabelTextStyle];
+        
+        CPTAxisLabel * newLabel     = [[CPTAxisLabel alloc] initWithContentLayer:newLabelLayer];
+        newLabel.tickLocation       = tickLocation.decimalValue;
+        newLabel.offset             = labelOffset;
+        
+        [newLabels addObject:newLabel];
+    }
+    
+    axis.axisLabels = newLabels;
+    
+    return NO;
+}
+
+
+
+- (CPTTextStyle *)textStyleWithAxis:(CPTAxis *)axis style:(CPTTextStyle *)textStyle color:(CPTColor *)color{
+    if (!textStyle) {
+        CPTMutableTextStyle * newStyle = [axis.labelTextStyle mutableCopy];
+        newStyle.color = color;
+        textStyle  = newStyle;
+    }
+    return textStyle;
+}
+
+
+
 @end

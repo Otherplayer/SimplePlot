@@ -39,7 +39,7 @@ static int i = 1;
 
     NSMutableArray *contentArray2 = [NSMutableArray array];
 
-    for ( NSUInteger i = 0; i < 20; i++ ) {
+    for ( NSUInteger i = 0; i < 60; i++ ) {
         NSNumber *x = @(i);
         NSNumber *y = @((arc4random() % 200) + 1);
         [contentArray2 addObject:@{ @"x": x, @"y": y }
